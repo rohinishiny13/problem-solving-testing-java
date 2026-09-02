@@ -1,0 +1,30 @@
+import heapq
+
+def astar(start, goal, graph, h):
+    q = [(h(start), 0, start)]
+    visited = set()
+
+    while q:
+        f, g, node = heapq.heappop(q)
+
+        if node == goal:
+            return g
+
+        if node in visited:
+            continue
+        visited.add(node)
+
+        for next_node, cost in graph[node]:
+            heapq.heappush(q, (g + cost + h(next_node),
+                                g + cost, next_node))
+
+graph = {
+    'S': [('A', 1), ('B', 4)],
+    'A': [('G', 5)],
+    'B': [('G', 1)],
+    'G': []
+}
+
+h = lambda x: {'S': 4, 'A': 3, 'B': 1, 'G': 0}[x]
+
+print(astar('S', 'G', graph, h))
