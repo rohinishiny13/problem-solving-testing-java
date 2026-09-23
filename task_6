@@ -1,0 +1,119 @@
+import java.util.Scanner;
+
+// Parent class
+class Ride {
+    protected double distance;
+
+    Ride(double distance) {
+        this.distance = distance;
+    }
+
+    double calculateFare() {
+        return 0;
+    }
+}
+
+// Child class - Car Ride
+class CarRide extends Ride {
+
+    CarRide(double distance) {
+        super(distance);
+    }
+
+    @Override
+    double calculateFare() {
+        return 50 + (distance * 15);
+    }
+}
+
+// Child class - Bike Ride
+class BikeRide extends Ride {
+
+    BikeRide(double distance) {
+        super(distance);
+    }
+
+    @Override
+    double calculateFare() {
+        return 20 + (distance * 8);
+    }
+}
+
+// Child class - Auto Ride
+class AutoRide extends Ride {
+
+    AutoRide(double distance) {
+        super(distance);
+    }
+
+    @Override
+    double calculateFare() {
+        return 30 + (distance * 10);
+    }
+}
+
+public class Task6{
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter distance in km: ");
+            double distance = sc.nextDouble();
+
+            if (distance <= 0) {
+                throw new IllegalArgumentException(
+                    "Distance must be greater than 0."
+                );
+            }
+
+            System.out.println("\nSelect Ride Type:");
+            System.out.println("1. Car");
+            System.out.println("2. Bike");
+            System.out.println("3. Auto");
+
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+
+            // Polymorphism
+            Ride ride;
+
+            switch (choice) {
+                case 1:
+                    ride = new CarRide(distance);
+                    break;
+
+                case 2:
+                    ride = new BikeRide(distance);
+                    break;
+
+                case 3:
+                    ride = new AutoRide(distance);
+                    break;
+
+                default:
+                    throw new IllegalArgumentException(
+                        "Invalid ride type."
+                    );
+            }
+
+            double fare = ride.calculateFare();
+
+            System.out.println("\n----- Ride Details -----");
+            System.out.println("Distance: " + distance + " km");
+            System.out.println("Ride Type: " +
+                    ride.getClass().getSimpleName());
+            System.out.println("Total Fare: Rs." + fare);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter valid data.");
+
+        } finally {
+            sc.close();
+        }
+    }
+}
